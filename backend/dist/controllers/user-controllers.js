@@ -1,4 +1,6 @@
 import { genSalt, hash, compare } from 'bcrypt';
+import { createToken } from '../utils/token_manager.js';
+import { COOKIE_NAME } from '../utils/constants.js';
 //model
 import User from '../models/user.js';
 export const getAllUsers = async (req, res, next) => {
@@ -21,9 +23,20 @@ export const userSignUp = async (req, res, next) => {
         const salt = await genSalt(10);
         const hashedPassword = await hash(password, salt);
         const user = await User.create({ name, email, password: hashedPassword });
+        const token = createToken(user._id.toString(), user.email, '7d');
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(COOKIE_NAME, token, {
+            path: "/",
+            signed: true,
+            domain: "localhost",
+            expires,
+            httpOnly: true
+        });
         return res.status(201).json({ message: 'User created successfully', user: user });
     }
     catch (error) {
+        console.error("Error occurred during user signup:", error);
         res.status(400).json({ message: 'Could not signup', error });
     }
 };
@@ -38,7 +51,24 @@ export const userLogin = async (req, res, next) => {
         if (!match) {
             return res.status(401).json({ message: 'Password is incorrect' });
         }
-        return res.status(201).json({ message: 'User logged in sucessfully', user });
+        //using cookie parser to send the cookies directly from the backend to the frontend
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: '/'
+        });
+        const token = createToken(user._id.toString(), user.email, '7d');
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            expires,
+            httpOnly: true,
+            signed: true
+        });
+        return res.status(201).json({ message: 'User logged in sucessfully', userId: user._id.toString() });
     }
     catch (error) {
         return res.status(401).json({ message: 'Could not login', error });
