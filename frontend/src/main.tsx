@@ -5,7 +5,10 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { AuthProvider } from './context/AuthContext.tsx'
-
+import axios from 'axios'
+import { Toaster } from 'react-hot-toast'
+axios.defaults.baseURL = 'http://localhost:5000/api/v1'
+axios.defaults.withCredentials = true; //allows setting the cookies directly from the backend
 
 export const theme = createTheme({ typography: { fontFamily: "Montserrat, sans-serif", allVariants: { color: "white" } } })
 
@@ -14,7 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AuthProvider>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <App />
+          <Toaster position='top-center'/>
+            <App />
         </ThemeProvider>
       </BrowserRouter>
     </AuthProvider>

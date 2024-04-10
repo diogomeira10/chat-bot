@@ -5,7 +5,6 @@ import NavigationLink from "./shared/NavigationLink";
 
 function Header() {
 
-  console.log(useAuthContext()?.isLoggedIn)
 
   const auth = useAuthContext()
 

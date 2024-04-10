@@ -33,7 +33,7 @@ export const userSignUp = async (req, res, next) => {
             expires,
             httpOnly: true
         });
-        return res.status(201).json({ message: 'User created successfully', user: user });
+        return res.status(201).json({ message: 'User created successfully', name: user.name, email: user.email });
     }
     catch (error) {
         console.error("Error occurred during user signup:", error);
@@ -68,10 +68,29 @@ export const userLogin = async (req, res, next) => {
             httpOnly: true,
             signed: true
         });
-        return res.status(201).json({ message: 'User logged in sucessfully', userId: user._id.toString() });
+        return res.status(200).json({ message: 'User logged in sucessfully', name: user.name, email: user.email });
     }
     catch (error) {
         return res.status(401).json({ message: 'Could not login', error });
+    }
+};
+export const verifyUser = async (req, res, next) => {
+    try {
+        //user token check
+        const user = await User.findById(res.locals.jwtData.id);
+        if (!user) {
+            return res.status(401).send("User not registered OR Token malfunctioned");
+        }
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Permissions didn't match");
+        }
+        return res
+            .status(200)
+            .json({ message: "OK", name: user.name, email: user.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({ message: "ERROR", cause: error.message });
     }
 };
 //# sourceMappingURL=user-controllers.js.map
