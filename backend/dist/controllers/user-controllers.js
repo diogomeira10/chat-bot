@@ -93,4 +93,6 @@ export const verifyUser = async (req, res, next) => {
         return res.status(200).json({ message: "ERROR", cause: error.message });
     }
 };
+export const logoutUser = async (req, res, next) => {
+};
 //# sourceMappingURL=user-controllers.js.map
