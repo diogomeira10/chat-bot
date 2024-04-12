@@ -20,7 +20,7 @@ function Login() {
       toast.loading("Signing in!", { id: "login" })
       await auth?.login(email, password)
       toast.success("Signed In Success", {id: "login"})
-    } catch (error) {
+    } catch (error) { 
       console.log(error)
       toast.error("Signing In Failed",  {id: "login"})
     }
