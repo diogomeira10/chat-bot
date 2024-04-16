@@ -1,25 +1,57 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Box, Avatar, Typography, Button, IconButton } from "@mui/material";
 import red from "@mui/material/colors/red";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { sendChatRequest } from "../helpers/api-communicator";
 // import {
-//   deleteUserChats,
-//   getUserChats,
+//   deleteuserChats,
+//   getuserChats,
 //   sendChatRequest,
 // } from "../helpers/api-communicator";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
+
+
+
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
+
+
+
+
 const Chat = () => {
 
-    const auth = useAuthContext()
+  const [messages, setMessages] = useState<Message[]>([])
+
+  const navigate = useNavigate()
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const auth = useAuthContext()
+
+  const handleSubmit = async () => {
+    const content = inputRef.current?.value as string
+
+    if(inputRef && inputRef.current) {
+      inputRef.current.value = ''
+    }
+
+    const newMessage : Message  = { role: 'user' , content } 
+
+    setMessages((prev) => [...prev, newMessage])
+
+    const chatData = await sendChatRequest(content)
 
 
+    setMessages([...chatData.chats])
+
+  }
+
+  
   return (
     <Box
       sx={{
@@ -107,7 +139,7 @@ const Chat = () => {
           Model - GPT 3.5 Turbo
         </Typography>
 
-        
+
         <Box
           sx={{
             width: "100%",
@@ -122,10 +154,10 @@ const Chat = () => {
             scrollBehavior: "smooth",
           }}
         >
-          {/* {chatMessages.map((chat, index) => (
+          {messages.map((chat, index) => (
             //@ts-ignore
             <ChatItem content={chat.content} role={chat.role} key={index} />
-          ))} */}
+          ))}
         </Box>
         <div
           style={{
@@ -138,7 +170,7 @@ const Chat = () => {
         >
           {" "}
           <input
-            // ref={inputRef}
+            ref={inputRef}
             type="text"
             style={{
               width: "100%",
@@ -150,9 +182,9 @@ const Chat = () => {
               fontSize: "20px",
             }}
           />
-          <IconButton 
-        //   onClick={handleSubmit} 
-          sx={{ color: "white", mx: 1 }}>
+          <IconButton
+              onClick={handleSubmit} 
+            sx={{ color: "white", mx: 1 }}>
             <IoMdSend />
           </IconButton>
         </div>

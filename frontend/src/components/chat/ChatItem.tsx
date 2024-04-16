@@ -1,7 +1,7 @@
 import { Box, Avatar, Typography } from "@mui/material";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 function extractCodeFromString(message: string) {
   if (message.includes("```")) {
@@ -25,6 +25,8 @@ function isCodeBlock(str: string) {
   }
   return false;
 }
+
+
 const ChatItem = ({
   content,
   role,
@@ -34,6 +36,9 @@ const ChatItem = ({
 }) => {
   const messageBlocks = extractCodeFromString(content);
   const auth = useAuthContext();
+
+
+  
   return role == "assistant" ? (
     <Box
       sx={{
@@ -52,7 +57,7 @@ const ChatItem = ({
         {!messageBlocks && (
           <Typography sx={{ fontSize: "20px" }}>{content}</Typography>
         )}
-        {messageBlocks &&
+        {/* {messageBlocks &&
           messageBlocks.length &&
           messageBlocks.map((block) =>
             isCodeBlock(block) ? (
@@ -62,7 +67,7 @@ const ChatItem = ({
             ) : (
               <Typography sx={{ fontSize: "20px" }}>{block}</Typography>
             )
-          )}
+          )} */}
       </Box>
     </Box>
   ) : (
@@ -83,7 +88,7 @@ const ChatItem = ({
         {!messageBlocks && (
           <Typography sx={{ fontSize: "20px" }}>{content}</Typography>
         )}
-        {messageBlocks &&
+        {/* {messageBlocks &&
           messageBlocks.length &&
           messageBlocks.map((block) =>
             isCodeBlock(block) ? (
@@ -93,7 +98,7 @@ const ChatItem = ({
             ) : (
               <Typography sx={{ fontSize: "20px" }}>{block}</Typography>
             )
-          )}
+          )} */}
       </Box>
     </Box>
   );
