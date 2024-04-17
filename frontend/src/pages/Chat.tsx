@@ -72,6 +72,7 @@ const Chat = () => {
 
 
   useLayoutEffect(() => {
+    
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
       getUserChats()
@@ -84,14 +85,15 @@ const Chat = () => {
           toast.error("Loading Failed", { id: "loadchats" });
         });
     }
+
   }, [auth]);
 
-    useEffect(() => {
-      if (!auth?.user) {
-        return navigate("/login");
-      }
-      console.log('Hi',auth?.user)
-    }, [auth]);
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login");
+    }
+    console.log('Hi', auth?.user)
+  }, [auth]);
 
 
   return (
