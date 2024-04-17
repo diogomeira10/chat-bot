@@ -1,9 +1,9 @@
 import { Box, Avatar, Typography } from "@mui/material";
 import { useAuthContext } from "../../hooks/useAuthContext";
-// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-// import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-function extractCodeFromString(message: string) {
+export function extractCodeFromString(message: string) {
   if (message.includes("```")) {
     const blocks = message.split("```");
     return blocks;
@@ -38,7 +38,7 @@ const ChatItem = ({
   const auth = useAuthContext();
 
 
-  
+
   return role == "assistant" ? (
     <Box
       sx={{
@@ -48,6 +48,7 @@ const ChatItem = ({
         gap: 2,
         borderRadius: 2,
         my: 1,
+        marginBottom: 2
       }}
     >
       <Avatar sx={{ ml: "0" }}>
@@ -57,7 +58,7 @@ const ChatItem = ({
         {!messageBlocks && (
           <Typography sx={{ fontSize: "20px" }}>{content}</Typography>
         )}
-        {/* {messageBlocks &&
+        {messageBlocks &&
           messageBlocks.length &&
           messageBlocks.map((block) =>
             isCodeBlock(block) ? (
@@ -67,7 +68,7 @@ const ChatItem = ({
             ) : (
               <Typography sx={{ fontSize: "20px" }}>{block}</Typography>
             )
-          )} */}
+          )}
       </Box>
     </Box>
   ) : (
@@ -78,6 +79,7 @@ const ChatItem = ({
         bgcolor: "#004d56",
         gap: 2,
         borderRadius: 2,
+        marginBottom: 2
       }}
     >
       <Avatar sx={{ ml: "0", bgcolor: "black", color: "white" }}>
@@ -88,7 +90,7 @@ const ChatItem = ({
         {!messageBlocks && (
           <Typography sx={{ fontSize: "20px" }}>{content}</Typography>
         )}
-        {/* {messageBlocks &&
+        {messageBlocks &&
           messageBlocks.length &&
           messageBlocks.map((block) =>
             isCodeBlock(block) ? (
@@ -98,7 +100,7 @@ const ChatItem = ({
             ) : (
               <Typography sx={{ fontSize: "20px" }}>{block}</Typography>
             )
-          )} */}
+          )}
       </Box>
     </Box>
   );

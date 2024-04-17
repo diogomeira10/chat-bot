@@ -12,7 +12,7 @@ type Props = {
 
 function NavigationLink(props: Props) {
     return (
-        <Link className='nav-link' style={{background: props.bg, color: props.textColor}} to={props.to}>{props.text}</Link>
+        <Link onClick={props.onClick} className='nav-link' style={{background: props.bg, color: props.textColor}} to={props.to}>{props.text}</Link>
     );
 }
 

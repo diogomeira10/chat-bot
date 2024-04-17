@@ -8,6 +8,8 @@ function Header() {
 
   const auth = useAuthContext()
 
+  
+
   return <AppBar sx={{ bgcolor: "transparent", position: "static", boxShadow: 'none' }}>
     <Toolbar sx={{ display: 'flex' }}>
       <Logo />
