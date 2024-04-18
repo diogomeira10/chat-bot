@@ -33,7 +33,7 @@ export const userSignUp = async (req, res, next) => {
             expires,
             httpOnly: true
         });
-        return res.status(201).json({ message: 'User created successfully', name: user.name, email: user.email });
+        return res.status(200).json({ message: 'User created successfully', name: user.name, email: user.email });
     }
     catch (error) {
         console.error("Error occurred during user signup:", error);

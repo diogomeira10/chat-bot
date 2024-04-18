@@ -13,15 +13,6 @@ import {
 import toast from "react-hot-toast";
 
 
-
-// import {
-//   deleteuserChats,
-//   getuserChats,
-//   sendChatRequest,
-// } from "../helpers/api-communicator";
-// import toast from "react-hot-toast";
-
-
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -38,6 +29,8 @@ const Chat = () => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const auth = useAuthContext()
+
+  console.log(auth?.user)
 
   const handleSubmit = async () => {
     const content = inputRef.current?.value as string
