@@ -30,23 +30,30 @@ const Chat = () => {
 
   const auth = useAuthContext()
 
-  console.log(auth?.user)
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
     const content = inputRef.current?.value as string
 
     if (inputRef && inputRef.current) {
       inputRef.current.value = ''
     }
 
-    const newMessage: Message = { role: 'user', content }
+    if(content) {
 
-    setMessages((prev) => [...prev, newMessage])
+      toast.loading("Loading Response", {id : "response"})
 
-    const chatData = await sendChatRequest(content)
+      const newMessage: Message = { role: 'user', content }
+  
+      setMessages((prev) => [...prev, newMessage])
+  
+      const chatData = await sendChatRequest(content)
+  
+  
+      setMessages([...chatData.chats])
 
-
-    setMessages([...chatData.chats])
+      toast.success("Response Given", {id: "response"})
+    }
 
 
   }
@@ -65,7 +72,7 @@ const Chat = () => {
 
 
   useLayoutEffect(() => {
-    
+
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
       getUserChats()
@@ -85,9 +92,30 @@ const Chat = () => {
     if (!auth?.user) {
       return navigate("/login");
     }
-    console.log('Hi', auth?.user)
   }, [auth]);
+  // const user = auth?.user?.name.split(" ")[1][0]
+  // console.log(user)
 
+  const initials = () => {
+
+    if (auth && auth.user && auth.user.name) {
+      const nameParts = auth.user.name.split(" ");
+
+      if (nameParts.length > 1) {
+        return `${nameParts[0][0].toUpperCase()}${nameParts[1][0].toUpperCase()}`;
+      } else {
+        return nameParts[0][0].toUpperCase();
+      }
+    } else {
+      return null; // or any default value you prefer
+    }
+  };
+
+  const messageContainerRef = useRef<HTMLDivElement | null>(null);
+useEffect(() => {
+  // Scroll to the bottom of the message container whenever messages change
+  messageContainerRef.current?.scrollTo({ top: messageContainerRef.current.scrollHeight });
+}, [messages]);
 
   return (
     <Box
@@ -112,7 +140,7 @@ const Chat = () => {
             display: "flex",
             width: "100%",
             height: "60vh",
-            bgcolor: "rgb(17,29,39)",
+            bgcolor: "#24201D",
             borderRadius: 5,
             flexDirection: "column",
             mx: 3,
@@ -127,8 +155,10 @@ const Chat = () => {
               fontWeight: 700,
             }}
           >
-            {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0]}
+            {/* {auth?.user?.name[0]}
+            {auth?.user?.name.split(" ")[1][0] ? auth?.user?.name.split(" ")[1][0] : ''} */}
+            {initials()}
+
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to a ChatBOT
@@ -190,6 +220,7 @@ const Chat = () => {
             overflowY: "auto",
             scrollBehavior: "smooth",
           }}
+          ref={messageContainerRef}
         >
           {messages.map((chat, index) => (
             //@ts-ignore
@@ -200,30 +231,32 @@ const Chat = () => {
           style={{
             width: "100%",
             borderRadius: 8,
-            backgroundColor: "rgb(17,27,39)",
+            backgroundColor: "#24201D",
             display: "flex",
             margin: "auto",
           }}
         >
           {" "}
-          <input
-            ref={inputRef}
-            type="text"
-            style={{
-              width: "100%",
-              backgroundColor: "transparent",
-              padding: "30px",
-              border: "none",
-              outline: "none",
-              color: "white",
-              fontSize: "20px",
-            }}
-          />
-          <IconButton
-            onClick={handleSubmit}
-            sx={{ color: "white", mx: 1 }}>
-            <IoMdSend />
-          </IconButton>
+          <form style={{display: 'flex',justifyContent:'space-between',width: '100%' }} onSubmit={handleSubmit}>
+            <input
+              ref={inputRef}
+              type="text"
+              style={{
+                width: "100%",
+                backgroundColor: "transparent",
+                padding: "30px",
+                border: "none",
+                outline: "none",
+                color: "white",
+                fontSize: "20px",
+              }}
+            />
+            <IconButton
+              onClick={handleSubmit}
+              sx={{ color: "white", mx: 1 }}>
+              <IoMdSend />
+            </IconButton>
+          </form>
         </div>
       </Box>
     </Box>

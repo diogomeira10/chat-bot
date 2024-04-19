@@ -23,7 +23,7 @@ function Header() {
               textColor="black"
             />
             <NavigationLink
-              bg="#51538f"
+              bg="#ff1744"
               textColor="white"
               to="/"
               text="logout"

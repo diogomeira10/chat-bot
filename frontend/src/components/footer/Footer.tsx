@@ -16,6 +16,7 @@ const Footer = () => {
           <span>
             <Link
               style={{ color: "white" }}
+              target='_blank'
               className="nav-link"
               to={"https://portfolio-35ej.onrender.com/"}
             >

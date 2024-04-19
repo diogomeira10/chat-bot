@@ -20,6 +20,11 @@ function Signup() {
     const name = formData.get("name") as string
     const email = formData.get("email") as string  //this works on the name
     const password = formData.get("password") as string
+
+
+    if(password.length < 6){
+      toast.error("Password must contain atleast 6 characters", {id :'password'})
+    }
     
 
     try {
@@ -43,7 +48,7 @@ function Signup() {
   return (
     <Box width={"100%"} height={"100%"} display="flex" flex={1}>
       <Box padding={8} mt={8} display={{ md: "flex", sm: "none", xs: "none" }}>
-        <img src="airobot.png" alt="Robot" style={{ width: "400px" }} />
+        <img src="nice-robot.webp" alt="Robot" style={{ width: "400px" }} />
       </Box>
       <Box
         display={"flex"}
