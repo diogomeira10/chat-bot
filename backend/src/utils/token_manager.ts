@@ -24,7 +24,7 @@ export const verifyToken = async (
     const token = req.signedCookies[`${COOKIE_NAME}`]; // Getting the browser's cookies
   
     // Log relevant information for debugging (without sensitive data)
-    console.log('Cookie Name variable is ',COOKIE_NAME)
+    console.log('Cookie Name',COOKIE_NAME)
     console.log('Req.signedCookies (redacted): ', { ...req.signedCookies, [COOKIE_NAME]: '[REDACTED]' });
     console.log('Token (redacted): ', token ? '[TOKEN]' : 'Not found');
   
@@ -45,4 +45,3 @@ export const verifyToken = async (
       });
     });
   };
-  
