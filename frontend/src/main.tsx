@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import { AuthProvider } from './context/AuthContext.tsx'
 import axios from 'axios'
 import { Toaster } from 'react-hot-toast'
-axios.defaults.baseURL = 'http://localhost:5000/api/v1'
+axios.defaults.baseURL = 'https://chat-bot-backend-ecku.onrender.com/api/v1'
 axios.defaults.withCredentials = true; //allows setting the cookies directly from the backend
 
 export const theme = createTheme({ typography: { fontFamily: "Montserrat, sans-serif", allVariants: { color: "white" } } })
