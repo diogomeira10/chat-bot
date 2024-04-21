@@ -47,6 +47,7 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
             path: "/",
             signed: true,
             expires,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
             httpOnly: true
 
         })
@@ -97,6 +98,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
         res.cookie(COOKIE_NAME, token, {
             path: "/",
             expires,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
             httpOnly: true,
             signed: true
         })
