@@ -20,22 +20,29 @@ export const verifyToken = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
-    const token = req.signedCookies[`${COOKIE_NAME}`]; //getting the browsers cookies
+  ) => {
+    const token = req.signedCookies[`${COOKIE_NAME}`]; // Getting the browser's cookies
+  
+    // Log relevant information for debugging (without sensitive data)
+    console.log('Cookie Name variable is ',COOKIE_NAME)
+    console.log('Req.signedCookies (redacted): ', { ...req.signedCookies, [COOKIE_NAME]: '[REDACTED]' });
+    console.log('Token (redacted): ', token ? '[TOKEN]' : 'Not found');
+  
     if (!token || token.trim() === "") {
-        return res.status(401).json({ message: "Token Not Received" });
+      return res.status(401).json({ message: "Token Not Received" });
     }
+  
     return new Promise<void>((resolve, reject) => {
-        return jwt.verify(token, process.env.JWT_SECRET, (err: any, success: any) => {
-            if (err) {
-                reject(err.message);
-                return res.status(401).json({ message: "Token Expired" });
-            } else {
-                resolve();
-                res.locals.jwtData = success;
-                return next();
-            }
-        });
+      return jwt.verify(token, process.env.JWT_SECRET, (err: any, success: any) => {
+        if (err) {
+          reject(err.message);
+          return res.status(401).json({ message: "Token Expired" });
+        } else {
+          resolve();
+          res.locals.jwtData = success;
+          return next();
+        }
+      });
     });
-};
-
+  };
+  
