@@ -29,8 +29,8 @@ export const userSignUp = async (req, res, next) => {
         res.cookie(COOKIE_NAME, token, {
             path: "/",
             signed: true,
-            domain: "localhost",
             expires,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
             httpOnly: true
         });
         return res.status(200).json({ message: 'User created successfully', name: user.name, email: user.email });
@@ -54,7 +54,6 @@ export const userLogin = async (req, res, next) => {
         //using cookie parser to send the cookies directly from the backend to the frontend
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            domain: "localhost",
             signed: true,
             path: '/'
         });
@@ -63,8 +62,8 @@ export const userLogin = async (req, res, next) => {
         expires.setDate(expires.getDate() + 7);
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: "localhost",
             expires,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
             httpOnly: true,
             signed: true
         });
@@ -103,7 +102,6 @@ export const userLogout = async (req, res, next) => {
         }
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            domain: "localhost",
             signed: true,
             path: "/",
         });
