@@ -97,19 +97,19 @@ const Chat = () => {
   // console.log(user)
 
   const initials = () => {
-    if (auth && auth.user && auth.user.name) {
-      const trimmedName = auth.user.name.trim(); // Trim trailing spaces
-      const nameParts = trimmedName.split(" ");
-  
-      const firstInitial = nameParts[0][0].toUpperCase();
-   
-      const lastName = nameParts[nameParts.length - 1];
-  
-      const lastInitial = lastName[0].toUpperCase();
-     
-      return `${firstInitial}${lastInitial}`;
-    } else {
+    if (!auth || !auth.user || !auth.user.name) {
       return null; 
+    }
+  
+    const trimmedName = auth.user.name.trim();
+    const nameParts = trimmedName.split(" ");
+  
+    if (nameParts.length === 1) {
+      return nameParts[0][0].toUpperCase();  
+    } else {
+      const firstInitial = nameParts[0][0].toUpperCase();
+      const lastInitial = nameParts[nameParts.length - 1][0].toUpperCase();
+      return `${firstInitial}${lastInitial}`;
     }
   };
 
@@ -157,8 +157,7 @@ useEffect(() => {
               fontWeight: 700,
             }}
           >
-            {/* {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0] ? auth?.user?.name.split(" ")[1][0] : ''} */}
+          
             {initials()}
 
           </Avatar>
