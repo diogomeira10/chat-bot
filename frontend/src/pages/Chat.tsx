@@ -97,17 +97,19 @@ const Chat = () => {
   // console.log(user)
 
   const initials = () => {
-
     if (auth && auth.user && auth.user.name) {
-      const nameParts = auth.user.name.split(" ");
-
-      if (nameParts.length > 1) {
-        return `${nameParts[0][0].toUpperCase()}${nameParts[1][0].toUpperCase()}`;
-      } else {
-        return nameParts[0][0].toUpperCase();
-      }
+      const trimmedName = auth.user.name.trim(); // Trim trailing spaces
+      const nameParts = trimmedName.split(" ");
+  
+      const firstInitial = nameParts[0][0].toUpperCase();
+   
+      const lastName = nameParts[nameParts.length - 1];
+  
+      const lastInitial = lastName[0].toUpperCase();
+     
+      return `${firstInitial}${lastInitial}`;
     } else {
-      return null; // or any default value you prefer
+      return null; 
     }
   };
 

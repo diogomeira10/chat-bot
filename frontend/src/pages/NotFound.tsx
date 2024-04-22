@@ -1,7 +1,12 @@
+import Header from "../components/Header";
+
 function NotFound() {
-    return ( 
-        <div>Not Found</div>
-     );
+    return (
+        <div>
+            <Header />
+            <div>Not Found</div>
+        </div>
+    );
 }
 
 export default NotFound;

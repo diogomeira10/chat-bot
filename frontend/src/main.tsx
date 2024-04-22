@@ -9,6 +9,8 @@ import axios from 'axios'
 import { Toaster } from 'react-hot-toast'
 axios.defaults.baseURL = 'https://chat-bot-backend-ecku.onrender.com/api/v1'
 axios.defaults.withCredentials = true; //allows setting the cookies directly from the backend
+import Cookies from 'js-cookie'
+
 
 export const theme = createTheme({ typography: { fontFamily: "Montserrat, sans-serif", allVariants: { color: "white" } } })
 
