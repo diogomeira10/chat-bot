@@ -48,7 +48,8 @@ export const userSignUp = async (req: Request, res: Response, next: NextFunction
             signed: true,
             expires,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-            httpOnly: true
+            httpOnly: true,
+            sameSite:'none'
 
         })
 
@@ -100,7 +101,8 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
             expires,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
             httpOnly: true,
-            signed: true
+            signed: true,
+            sameSite:'none'
         })
 
         return res.status(200).json({ message: 'User logged in sucessfully', name: user.name, email: user.email })
