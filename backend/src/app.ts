@@ -10,10 +10,22 @@ config();
 const app = express();
 
 // Update origin to match your deployed frontend domain on Render.com
+
+const devOrigin = 'http://localhost:5173'
+const allowedOrigins = ['https://chat-bot-q0rp.onrender.com/', 'https://chat-bot-q0rp.onrender.com/login','https://chat-bot-q0rp.onrender.com/signup','https://chat-bot-q0rp.onrender.com/chat']
+
 const corsOptions = {
-    origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5173', // Fallback to localhost for development
+    origin: (origin: string, callback: (err: Error | null, allow?: boolean) => void) =>{
+        if(allowedOrigins.includes(origin)) {
+            console.log(origin, allowedOrigins)
+            callback(null,true)
+        } else {
+            callback(new Error('Not Allowed By CORS'))
+        }
+    },
     credentials: true, 
-    optionsSuccessStatus: 200 
+    optionsSuccessStatus: 200,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions));
 
