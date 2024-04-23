@@ -142,7 +142,7 @@ useEffect(() => {
             display: "flex",
             width: "100%",
             height: "60vh",
-            bgcolor: "#24201D",
+            bgcolor: "rgb(17,29,39)",
             borderRadius: 5,
             flexDirection: "column",
             mx: 3,
@@ -232,7 +232,7 @@ useEffect(() => {
           style={{
             width: "100%",
             borderRadius: 8,
-            backgroundColor: "#24201D",
+            backgroundColor: "rgb(17,29,39)",
             display: "flex",
             margin: "auto",
           }}
